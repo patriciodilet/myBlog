@@ -1,6 +1,7 @@
 ﻿using myBlog.Interfaces;
 using myBlog.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace myBlog.Data.Repository
@@ -14,32 +15,38 @@ namespace myBlog.Data.Repository
         }
         public void AddPost(Post post)
         {
-            throw new System.NotImplementedException();
+            _context.Posts.Add(post);
         }
 
         public List<Post> GetAllPosts()
         {
-            throw new System.NotImplementedException();
+            return _context.Posts.ToList();
         }
 
         public Post GetPost(int id)
         {
-            throw new System.NotImplementedException();
+            return _context.Posts.FirstOrDefault(p => p.Id == id);
         }
 
         public void RemovePost(int id)
         {
-            throw new System.NotImplementedException();
+            _context.Posts.Remove(GetPost(id));
         }
 
-        public Task<bool> SaveChangesAsync()
+        public async Task<bool> SaveChangesAsync()
         {
-            throw new System.NotImplementedException();
+            if(await _context.SaveChangesAsync() > 0)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
         }
 
         public void UpdatePost(Post post)
         {
-            throw new System.NotImplementedException();
+            _context.Posts.Update(post);
         }
     }
 }
